@@ -7,7 +7,7 @@ import orm from "./orm";
 import { ToDoItem } from "../types/ToDoItem";
 
 const app = express();
-const port = 3001;
+const port = 5000;
 
 app.use(cors())
 app.use(bodyParser.json())

@@ -7,8 +7,6 @@ import {
   ListItem,
   Spacer,
   Text,
-  Image,
-  Link,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
@@ -47,58 +45,38 @@ function Users() {
           <List>
             <ListItem>
               <Flex alignItems="center" color="gray.600" fontWeight={600}>
-                <Box>
-                  <Text
-                    fontSize={12}
-                    px={6}
-                    py={3}
-                    textTransform="uppercase"
-                    width={100}
-                  >
-                    Image
-                  </Text>
-                </Box>
-                <Box px={6} py={3} flexBasis="100px">
-                  <Text fontSize={12} textTransform="uppercase">
-                    Name
-                  </Text>
-                </Box>
-                <Box px={6} py={3}>
-                  <Text fontSize={12} textTransform="uppercase">
-                    Email
-                  </Text>
-                </Box>
+                <Text
+                  fontSize={12}
+                  px={6}
+                  py={3}
+                  textTransform="uppercase"
+                  width={100}
+                >
+                  Image
+                </Text>
+                <Text fontSize={12} px={6} py={3} textTransform="uppercase">
+                  Name
+                </Text>
                 <Spacer />
-                <Box px={6} py={3}>
-                  <Text fontSize={12} textTransform="uppercase">
-                    Followers
-                  </Text>
-                </Box>
+                <Text fontSize={12} px={6} py={3} textTransform="uppercase">
+                  Follow count
+                </Text>
               </Flex>
             </ListItem>
-            {users.map((user, index) => (
-              <ListItem key={user.id}>
+            {users.map((item, index) => (
+              <ListItem key={item.id}>
                 <Flex
                   alignItems="center"
                   bg={index % 2 === 0 ? "gray.100" : "white"}
                 >
-                  <Box px={6} py={4}>
-                    <Image src={user.avatarUrl} />
-                  </Box>
-                  <Box px={6} py={4} flexBasis="100px">
-                    <Text fontSize={16} textTransform="capitalize">
-                      {user.username}
-                    </Text>
-                  </Box>
-                  <Box px={6} py={4}>
-                    <Text fontSize={16}>
-                      <Link href={`mailto:${user.email}`}>{user.email}</Link>
-                    </Text>
-                  </Box>
+                  <img src={item.avatarUrl} />
+                  <Text fontSize={16} px={6} py={4}>
+                    {item.username}
+                  </Text>
                   <Spacer />
-                  <Box px={6} py={4}>
-                    <Text fontSize={16}>{user.followers.length}</Text>
-                  </Box>
+                  <Text fontSize={16} px={6} py={4}>
+                    {item.followers.length}
+                  </Text>
                 </Flex>
               </ListItem>
             ))}

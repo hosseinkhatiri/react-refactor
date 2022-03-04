@@ -25,7 +25,7 @@ function ToDoList() {
 
   useEffect(() => {
     async function getItems() {
-      const res = await fetch("http://localhost:3001/items");
+      const res = await fetch("http://localhost:5000/items");
       const data = await res.json();
       if (data) setToDoItems(data);
     }
@@ -35,7 +35,7 @@ function ToDoList() {
   function handleSubmitNewItem(event: SyntheticEvent): void {
     event.preventDefault();
     async function createItem() {
-      const response = await fetch("http://localhost:3001/items", {
+      const response = await fetch("http://localhost:5000/items", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
@@ -52,33 +52,6 @@ function ToDoList() {
     createItem();
   }
 
-  function handleDeleteItem(id: number, index: number): void {
-    async function deleteItem() {
-      const response = await fetch(`http://localhost:3001/items/${id}`, {
-        method: "DELETE",
-      });
-      setToDoItems((prev) => [
-        ...prev.slice(0, index),
-        ...prev.slice(index + 1),
-      ]);
-    }
-
-    deleteItem();
-  }
-
-  function handleToggleItem(id: number, index: number): void {
-    async function toggleItem() {
-      const response = await fetch(`http://localhost:3001/items/${id}/toggle`, {
-        method: "PUT",
-      });
-      setToDoItems((prev) => [
-        ...prev.slice(0, index),
-        { ...prev[index], completed: !prev[index].completed },
-        ...prev.slice(index + 1),
-      ]);
-    }
-    toggleItem();
-  }
 
   return (
     <>
@@ -88,70 +61,14 @@ function ToDoList() {
         </Box>
       </Center>
 
-      {/* <Center>
+      <Center>
         <Box width="640px">
-          <Table />
-        </Box>
-      </Center> */}
-      
-      {/* TODO replace the following block with the <Table /> component you create */}
-      <Center alignItems="baseline">
-        <Box width="640px">
-          <List>
-            <ListItem>
-              <Flex alignItems="center" color="gray.600" fontWeight={600}>
-                <Text
-                  fontSize={12}
-                  px={6}
-                  py={3}
-                  textTransform="uppercase"
-                  width={100}
-                >
-                  Done
-                </Text>
-                <Text fontSize={12} px={6} py={3} textTransform="uppercase">
-                  Description
-                </Text>
-                <Text
-                  fontSize={12}
-                  px={6}
-                  py={3}
-                  textTransform="uppercase"
-                ></Text>
-              </Flex>
-            </ListItem>
-            {toDoItems.map((item, index) => (
-              <ListItem key={item.id}>
-                <Flex
-                  alignItems="center"
-                  bg={index % 2 === 0 ? "gray.100" : "white"}
-                >
-                  <Checkbox
-                    isChecked={item.completed}
-                    onChange={() => handleToggleItem(item.id, index)}
-                    width={100}
-                    px={6}
-                    py={4}
-                  />
-                  <Text fontSize={16} px={6} py={4}>
-                    {item.description}
-                  </Text>
-                  <Spacer />
-                  <Box px={6} py={4}>
-                    <IconButton
-                      icon={<DeleteIcon />}
-                      aria-label="Delete this item"
-                      onClick={() => handleDeleteItem(item.id, index)}
-                      size="xs"
-                      background="gray.600"
-                      _hover={{ bg: "red.600" }}
-                      color="white"
-                    />
-                  </Box>
-                </Flex>
-              </ListItem>
-            ))}
-          </List>
+          <Table
+            data={toDoItems}
+            pageSize={10}
+            comparatorFunction={(x) => x.description.length > 2}
+            {...{ setToDoItems }}
+          />
         </Box>
       </Center>
 
